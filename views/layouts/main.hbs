@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype</title>
+    <link href="css/bulma.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/3d5424e018.js" crossorigin="anonymous"></script>
+    <link href="css/calender.min.css" rel="stylesheet">
+    <script src="js/calender.min.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/main.js"></script>
+</head>
+<body>  
+  <section class="hero is-fullheight">
+      <div class="hero-head">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+              <img src="static/icon.jpeg" width="60" height="25">
+            </a>        
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+        
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+              <a class="navbar-item" href="/">
+                Home
+              </a>
+        
+              <a class="navbar-item" href="/edit_ac">
+                Profile
+              </a>
+        
+            </div>        
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a class="button is-primary" href="/create_ac">
+                    <strong>Sign up</strong>
+                  </a>
+                  <a class="button is-light" href="/login">
+                    Log in
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="hero-body is-main">
+        <div class="container has-text-centered">
+          {{{body}}}
+        </div>
+      </div>
+      <div class="hero-footer">
+          <div class="hero is-primary">
+              <div class="hero has-text-centered">
+                  <label>Footer</label>
+              </div>
+          </div>
+      </div>
+  </section>
+</body>
+</html>
