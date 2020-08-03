@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",
-    "hbs": "^4.1.1"
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "password-hash": "^1.2.2"
   }
 }
