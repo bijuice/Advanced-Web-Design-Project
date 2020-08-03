@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 const jsonParser = bodyParser.json();
 const fileName = 'hobby.json';
+const login = require('./loginmgr.js')
 
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
@@ -39,6 +40,7 @@ app.get('/landing', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
+    login.login()
     response.render('login');
 });
 
