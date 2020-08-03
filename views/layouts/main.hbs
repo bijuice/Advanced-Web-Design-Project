@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prototype</title>
+    <title>Hobbity</title>
     <link href="css/bulma.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/3d5424e018.js" crossorigin="anonymous"></script>
@@ -40,6 +40,13 @@
             </div>        
             <div class="navbar-end">
               <div class="navbar-item">
+                {{#if user }}
+                <div class="buttons">
+                    <a class="button is-light" href="/logout">
+                      Log out
+                    </a>
+                  </div>
+                {{else}}
                 <div class="buttons">
                   <a class="button is-primary" href="/create_ac">
                     <strong>Sign up</strong>
@@ -48,15 +55,14 @@
                     Log in
                   </a>
                 </div>
+                {{/if}}
               </div>
             </div>
           </div>
         </nav>
       </div>
       <div class="hero-body is-main">
-        <div class="container has-text-centered">
           {{{body}}}
-        </div>
       </div>
       <div class="hero-footer">
           <div class="hero is-primary">

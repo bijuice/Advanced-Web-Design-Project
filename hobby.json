@@ -1,16 +1,18 @@
 {
-  "intrest":[{   
-    "id":1,     
-    "name":"Art",          
-    "note":"my fave",
-    "color": "purple",
-    "info": [{"week_no": "28/10/2017","actual": 5,"expected": 200},{"week_no": "29/10/2017", "actual": 50, "expected": 200}, {"week_no": "30/10/2017", "actual": 60, "expected": 100}, {"week_no": "31/10/2017", "actual": 120, "expected": 100}, {"week_no": "01/11/2017", "actual": 100, "expected": 150}, {"week_no": "02/11/2017", "actual": 50, "expected": 150}]
-    },
-    {
-      "id":2,
-      "name":"Music",
-      "note":"Needs alot of work",
+  "skull":{
+    "intrest":[{   
+      "id":1,     
+      "name":"Art",          
+      "note":"my fave",
       "color": "purple",
-      "info": [{"week_no": "28/10/2017","actual": 5,"expected": 200},{"week_no": "29/10/2017", "actual": 50, "expected": 200}, {"week_no": "30/10/2017", "actual": 60, "expected": 100}, {"week_no": "31/10/2017", "actual": 120, "expected": 100}, {"week_no": "01/11/2017", "actual": 100, "expected": 150}, {"week_no": "02/11/2017", "actual": 50, "expected": 150}]}    
-  ]
+      "info": [{"week_no": "28/10/2017","actual": 5,"expected": 200},{"week_no": "29/10/2017", "actual": 50, "expected": 200}, {"week_no": "30/10/2017", "actual": 60, "expected": 100}, {"week_no": "31/10/2017", "actual": 120, "expected": 100}, {"week_no": "01/11/2017", "actual": 100, "expected": 150}, {"week_no": "02/11/2017", "actual": 50, "expected": 150}]
+      },
+      {
+        "id":2,
+        "name":"Music",
+        "note":"Needs alot of work",
+        "color": "purple",
+        "info": [{"week_no": "28/10/2017","actual": 5,"expected": 200},{"week_no": "29/10/2017", "actual": 50, "expected": 200}, {"week_no": "30/10/2017", "actual": 60, "expected": 100}, {"week_no": "31/10/2017", "actual": 120, "expected": 100}, {"week_no": "01/11/2017", "actual": 100, "expected": 150}, {"week_no": "02/11/2017", "actual": 50, "expected": 150}]}    
+    ]
+  }
 }
