@@ -109,6 +109,11 @@ app.post('/signup', jsonParser, (request, response) => {
         }
         data.push(user)
         fs.writeFileSync('user.json', JSON.stringify(data, null, 2));
+
+        hobby_data = fetch_all()
+        hobby_data[request.body.username] = {}
+        hobby_data[request.body.username]["intrest"] = []
+        fs.writeFileSync(fileName, JSON.stringify(hobby_data, null, 2));
         response.redirect('/login');
     }
 });
