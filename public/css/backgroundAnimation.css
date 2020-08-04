@@ -1,0 +1,39 @@
+@-webkit-keyframes loops{
+  0%{
+    background-image: url('background_photos/2.jpg');
+  }
+  15% {
+    background-image: url('background_photos/3.jpg');
+  }
+  30%{
+    background-image: url('background_photos/4.jpg');
+  }
+  45%{
+    background-image: url('background_photos/5.jpg');
+  }
+  60%{
+    background-image: url('background_photos/6.jpg');
+  }
+  75%{
+    background-image: url('background_photos/7.jpg');
+  }
+  100%{
+    background-image: url('background_photos/8.jpg');
+  }
+}
+
+.hero-body.is-main{      
+  background-image: url('background_photos/2.jpg');
+  margin: auto 0px;
+  -webkit-animation-name: loops;
+  -webkit-animation-duration: 35s;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  background-repeat: no-repeat;
+  background-size: cover;  
+}
+
+.box{
+  background-color: rgba(255, 255, 255, 0.90);
+}

@@ -1,0 +1,99 @@
+<script>
+  $("div.hero-body.is-main").addClass("has-gradient")
+</script>
+    <div class="container has-text-centered">
+        <div class="notification is-info is-light">
+            <div class="level">
+                <p class="has-text-dark level-right">Already have an account?</p>
+            <a href="/login" class="button is-success level-left">Log In</a>
+            </div>  
+        </div>
+
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box">
+            {{#if flash}}
+            <div class="notification is-danger">
+            {{flash}}
+            </div>
+            {{/if}}
+            <h1 class="title is-3">Sign up</h1>
+            <form onSubmit = "return checkPassword(this)" action="/signup" method="POST">
+                <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input is-success" type="text" name="username" placeholder="Username" required>
+                        <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                        </span>
+                    </div>
+                    <p class="help is-danger">Username can not be changed later</p>
+                </div>
+                <div class="field">
+                <label class="label">First Name</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="text" name="fname" placeholder="First name" required>
+                    <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+                </div>
+            <div class="field">
+                <label class="label">Last Name</label>
+                <p class="control has-icons-left">
+                <input class="input" type="text" name="lname" placeholder="Last Name" required>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+                </p>
+            </div>
+                <div class="field">
+                    <label class="label">Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" name="password" placeholder="Password" id="password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Confirm Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Confirm Password" id="confirm_password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-success" type="submit">Sign Up</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-danger" type="reset">Reset</button>
+                    </div>
+                </div>
+
+                </div>
+                
+            </form>  
+    </div>
+</div>
+<script>
+    function checkPassword(form) { 
+        password1 = form.password.value; 
+        password2 = form.confirm_password.value; 
+        if (password1 != password2) { 
+            alert ("\nPassword did not match: Please try again...") 
+            return false; 
+        } 
+        else{ 
+            alert("Welcome to Hobbity, please login") 
+            return true; 
+        } 
+    } 
+</script>

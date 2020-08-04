@@ -93,8 +93,35 @@ app.get('/logout', (request, response) => {
     response.redirect('/');
 });
 
+app.post('/signup', jsonParser, (request, response) => {
+    if (login.checkuser(request.body.username)){
+        request.flash('message', 'Username already exists');
+        response.redirect('/create_ac');
+        response.end();
+    }
+    else{
+        data = login.fetch()
+        var user = {
+                "username":request.body.username,
+                "password":login.hashpassword(request.body.password),
+                "fname":request.body.fname,
+                "lname":request.body.lname
+        }
+        data.push(user)
+        fs.writeFileSync('user.json', JSON.stringify(data, null, 2));
+        response.redirect('/login');
+    }
+});
+
 app.get('/create_ac', (request, response) => {
-    response.render('create_ac',{"user":check_loggedin(request)});
+    if (request.session.flash){
+        var message = request.session.flash["message"]
+        request.session.flash["message"] = []
+        response.render('create_ac',{"user":check_loggedin(request),"flash":message});
+    }
+    else {
+        response.render('create_ac',{"user":check_loggedin(request)});
+        }
 });
 
 app.get('/edit_ac', (request, response) => {
@@ -109,19 +136,25 @@ app.get('/edit?hobby_id', (request, response) => {
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
     var password = request.body.password;
+    var found = false;
 	if (username && password) {
         var users = login.fetch()
         users.forEach(element => {
             if (username == element.username && login.checkhash(password,element.password)) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                response.redirect('/');
-            } else {
-                request.flash('message', 'Incorrect Username and/or Password!');
-                response.redirect('/login');
-            }			
-            response.end()            
+                found = true;
+            }            
         });
+        if (found){
+            response.redirect('/');
+            response.end();                	
+        }
+        else{
+            request.flash('message', 'Incorrect Username and/or Password!');
+            response.redirect('/login');
+            response.end();
+        }
     } 
     else {
         request.flash('message', 'Incorrect Username and/or Password!');
@@ -131,9 +164,7 @@ app.post('/auth', function(request, response) {
 });
 
 app.post('/addhobyy', jsonParser, (request, response) => {
-    console.log(request.body)
     data = fetch_all()
-    console.log(request.body.date)
     var hby = {
         "id":data[request.session.username]["intrest"].length+1,     
         "name":request.body.name,          
