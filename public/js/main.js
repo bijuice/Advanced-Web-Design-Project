@@ -29,12 +29,20 @@ function show_addhby(button){
     $('#add_hobby').animate({
         height: "toggle"
     });
-
-    var clickNum = $(button).data('clickNum');
-    if (clickNum = 1){
-        gen_chart(data,cid);
-    }
 }
+
+function show_adddayform(id,button){
+    if ($('#adddayform'+id).is(":visible")){
+        $(button).html("Add Day")
+    }
+    else{
+        $(button).html("Hide Add Day")
+    }
+    $('#adddayform'+id).animate({
+        height: "toggle"
+    });
+}
+
 function gen_chart(array,cid){
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);

@@ -1,3 +1,5 @@
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <div class="container has-text-centered">
     {{#if message}}
     <div class="notification is-dark">
@@ -34,22 +36,6 @@
                     <input class="input" name="date" type="date" required>
                 </div>
             </div>
-            <!--<div class="field has-addons">
-                <div class="control">
-                    <button class="button is-static" type="button">Expected Minutes</button>
-                </div>
-                <div class="control is-expanded">
-                    <input class="input" name="exp" type="number" required>
-                </div>
-            </div>
-            <div class="field has-addons">
-                <div class="control">
-                    <button class="button is-static" type="button">Actual Hours done</button>
-                </div>
-                <div class="control is-expanded">
-                    <input class="input" name="act" type="number" required>
-                </div>
-            </div>-->
             <div class="field is-grouped">
                 <div class="control">
                     <button type="submit" class="button is-success">Add Hobby</button>
@@ -81,8 +67,47 @@
             </button>
             </div>
         </div>
-        
         <p class="notification is-light">{{this.note}}</p>
+        <button class="button" onclick="show_adddayform('{{this.id}}',this)" style="background-color: {{this.color}};color:white;">Add Day</button>
+        <div id="adddayform{{this.id}}" style="display: none;">
+        <hr>
+        <form action="/add_date" method="POST">
+            <input name="id" type="number" value="{{this.id}}" hidden>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Date</label>
+                </div>
+                <div class="control">
+                    <input name="date" type="date" class="input" required>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Expected minutes</label>
+                </div>
+                <div class="control">
+                    <input name="expected" type="number" class="input" required>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Actual minutes</label>
+                </div>
+                <div class="control">
+                    <input name="actual" type="number" class="input" required>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-success" type="submit">Add</button>
+                </div>
+                <div class="control">
+                    <button class="button is-warning" type="reset">Reset</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        </div>
         <div id="extra{{this.id}}" style="display: none;">
             <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
             <hr>
@@ -114,7 +139,7 @@
             create_calender('calender_{{this.id}}',month,year,activ,"{{this.name}}",options);
         </script>
             <div class="container">
-                <table class="table">
+                <table class="table" id="table_{{this.id}}">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -160,25 +185,13 @@
                             </td>
                         </tr>
                         {{/each}}
-                        <form action="/add_date" method="POST">
-                            <tr>
-                                <th>Date</th>
-                                <th>Expected</th>
-                                <th>Actual</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input name="id" type="number" value="{{this.id}}" hidden>
-                                    <input name="date" type="date" class="input" required>
-                                </td>
-                                <td><input name="expected" type="number" class="input" required></td>
-                                <td><input name="actual" type="number" class="input" required></td>
-                                <td><button type="submit">+ Add</button></td>
-                            </tr>
-                        </form>
                     </tbody>
                 </table>
+                <script>
+                    $(document).ready( function () {
+                        $('#table_{{this.id}}').DataTable();
+                    } );
+                </script>
             </div>
         </div>
     </div>
