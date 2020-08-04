@@ -11,6 +11,17 @@ module.exports = {
     fetch: function (){
         let rawData = new fs.readFileSync('user.json');
         let data = JSON.parse(rawData);
-        return data
+        return data;
+    },
+    msg: function (username){
+        let rawData = new fs.readFileSync('user.json');
+        let data = JSON.parse(rawData);
+        var stirng = "";
+        data.forEach(user =>{
+            if (user.username == username){
+                string = "Welcome "+user.fname+" "+user.lname;
+            }
+        });
+        return string
     }
 }

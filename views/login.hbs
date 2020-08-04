@@ -6,15 +6,16 @@
     </div>  
 </div>
 
-{{#if flash}}
-<div class="notification is-danger">
-  {{flash}}
-</div>
-{{/if}}
+
 
 <div class="columns is-mobile is-centered">
   <div class="column is-half">
       <div class="box">
+        {{#if flash}}
+        <div class="notification is-danger">
+          {{flash}}
+        </div>
+        {{/if}}
         <h1 class="title is-3">Log in to your account...</h1>
             <form action="/auth" method="POST">
               <div class="field">

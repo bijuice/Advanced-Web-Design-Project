@@ -1,4 +1,9 @@
 <div class="container has-text-centered">
+    {{#if message}}
+    <div class="notification is-dark">
+        <h1 class="title">{{message}}</h1>
+    </div>
+    {{/if}}
     <div class="field">
         <div class="control">
             <button class="icon has-text-light is-large hide-button" onclick="show_addhby(this)" type="button" title="Add Hobby"><i class="fas fa-plus-circle fa-4x"></i></button> 

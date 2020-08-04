@@ -69,7 +69,7 @@ function loggedin(request, response) {
 
 app.get('/', (request, response) => {
     if (loggedin(request, response))
-	response.render('home',{"user":check_loggedin(request),hobby:fetch(request.session.username)});
+	response.render('home',{"user":check_loggedin(request),hobby:fetch(request.session.username),message:login.msg(request.session.username)});
 });
 
 app.get('/landing', (request, response) => {
