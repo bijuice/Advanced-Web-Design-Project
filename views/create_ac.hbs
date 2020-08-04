@@ -1,5 +1,5 @@
 <link href="css/backgroundAnimation.css" rel="stylesheet">
-    <div id="signUpBG">
+    <div class="container has-text-centered">
         <div class="notification is-info is-light">
             <div class="level">
                 <p class="has-text-dark level-right">Already have an account?</p>
@@ -7,16 +7,10 @@
             </div>  
         </div>
 
-        <div class="column is-half is-offset-one-quarter has-background-info-light" style="opacity: 80%; margin-top: 50px;">
-            <h1 class="title is-2 has-text-centered">Hobbity</h1>
-        </div>
-
-        <div class="container" id="background">
-
-            <div class="column is-half is-offset-one-quarter has-background-info-light" style="opacity: 80%; margin-top: 20px;">
-
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box">
+            <h1 class="title is-3">Sign up</h1>
             <form action="/login.js" class="form">
-
                 <div class="field">
                     <label for="" class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
@@ -28,9 +22,8 @@
                         <i class="fas fa-check"></i>
                         </span>
                     </div>
-                    <p class="help is-success">This username is available</p>
+                    <p class="help is-danger">Username can not be changed later</p>
                 </div>
-
                 <div class="field">
                 <label class="label">First Name</label>
                 <p class="control has-icons-left">
@@ -40,7 +33,6 @@
                     </span>
                 </p>
                 </div>
-
             <div class="field">
                 <label class="label">Last Name</label>
                 <p class="control has-icons-left">
@@ -50,7 +42,6 @@
                 </span>
                 </p>
             </div>
-
                 <div class="field">
                     <label class="label">Password</label>
                     <p class="control has-icons-left">
