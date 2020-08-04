@@ -117,19 +117,47 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Week No</th>
-                            <th>Expected minutes</th>
-                            <th>Actual minutes</th>
-                            <th></th>
+                            <th>Date</th>
+                            <th>Progress</th>
+                            <th>Add Minutes</th>
+                            <th>Change expected</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each this.info}}
                         <tr>
                             <td>{{this.date}}</td>
-                            <td>{{this.expected}}</td>
-                            <td>{{this.actual}}</td>
-                            <td><button type="button">Edit</button></td>
+                            <td>
+                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}">15%</progress>
+                                <span class="tag is-info">Actual minutes: {{this.actual}}</span><span class="tag is-warning">Expected minutes: {{this.expected}}</span>
+                            </td>
+                            <td>
+                                <form action="">
+                                    <div class="field has-addons"> 
+                                    <div class="control">
+                                        <input class="input" type="number" value="0">
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="">
+                                    <div class="field has-addons"> 
+                                    <div class="control">
+                                        <input class="input" type="number" value="{{this.expected}}">
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button is-warning">Save</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </td>
                         </tr>
                         {{/each}}
                         <form action="/add_date" method="POST">
@@ -157,5 +185,5 @@
     </div>             
 {{/each}}
 </div>
-            
+
 </div>
