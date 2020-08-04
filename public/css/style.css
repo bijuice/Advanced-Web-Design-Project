@@ -5,7 +5,7 @@
     --forth:#23a6d5;
 }
 .hero-body.is-main{
-    background-color: var(--main);
+    background: linear-gradient(to bottom, var(--forth) 0%, #00d1b2 100%);
 }
 .hero-body.is-main.has-gradient{
     background: linear-gradient(-45deg,var(--third),var(--secondary),var(--forth),var(--main));
