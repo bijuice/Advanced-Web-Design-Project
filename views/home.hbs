@@ -75,8 +75,8 @@
         </div>
         <div class="field">
             <div class="control">
-                <span class="label is-large">{{this.name}}</span>
-            <button class="button is-rounded is-info" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});">
+                <span class="label is-large" style="color: {{this.color}};">{{this.name}}</span>
+            <button class="button is-rounded" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});" style="background-color: {{this.color}};color:white;">
                 <i class="fas fa-arrow-down"></i>
             </button>
             </div>
@@ -85,15 +85,33 @@
         <p class="notification is-light">{{this.note}}</p>
         <div id="extra{{this.id}}" style="display: none;">
             <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
-            <div id="calender_{{this.id}}" style="overflow: auto;"></div>
-        
+            <hr>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calb('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="back" style="color: {{this.color}};"><i class="fas fa-arrow-circle-left fa-4x"></i></button> 
+                </div>
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calf('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="forward" style="color: {{this.color}};"><i class="fas fa-arrow-circle-right fa-4x"></i></button> 
+                </div>
+            </div>
+            <div id="calender_{{this.id}}" style="overflow: auto;" data="0"></div>
+            <hr>        
         <script>
             var activ = get_caldata("{{this.id}}")
             options = {
             "mainColor" : "{{this.color}}",
             "secondaryColor":"#bec2c1"
             }
-            create_calender('calender_{{this.id}}',1,2020,activ,"{{this.name}}",options);
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var year = d.getFullYear();
+            try {
+                activ = activ[year][month];
+            }
+            catch(err) {
+                console.log(err.message);
+            }
+            create_calender('calender_{{this.id}}',month,year,activ,"{{this.name}}",options);
         </script>
             <div class="container">
                 <table class="table">

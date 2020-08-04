@@ -171,8 +171,18 @@ app.get('/get_cal', (request, response) => {
     data["intrest"].forEach(hby => {
         if (hby.id == qdata.id){
             hby.info.forEach( dt => {
-                var day = new Date(dt.date)
-                output[day.getDate()] = ["Expected: "+dt.expected+" minutes","Actual minutes"+dt.actual+" minutes"]
+                var date = new Date(dt.date);
+                var day = date.getDate();
+                var month = date.getMonth()+1;
+                var year = date.getFullYear()
+                if (!(year in output) && !(month in output)){
+                    output[year] = {};
+                    output[year][month] = {};
+                }
+                else if ((year in output) && !(month in output[year])){
+                    output[year][month] = {};
+                }              
+                output[year][month][day] = ["Expected: "+dt.expected+" minutes","Actual minutes"+dt.actual+" minutes"]
             })
         }
     })
