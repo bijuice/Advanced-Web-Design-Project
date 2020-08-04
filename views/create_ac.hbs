@@ -10,11 +10,11 @@
         <div class="column is-half is-offset-one-quarter">
             <div class="box">
             <h1 class="title is-3">Sign up</h1>
-            <form action="/login.js" class="form">
+            <form action="/create_ac" method="POST">
                 <div class="field">
                     <label for="" class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="text" id="username" placeholder="Username" required>
+                        <input class="input is-success" type="text" name="username" placeholder="Username" required>
                         <span class="icon is-small is-left">
                         <i class="fas fa-user"></i>
                         </span>
@@ -27,7 +27,7 @@
                 <div class="field">
                 <label class="label">First Name</label>
                 <p class="control has-icons-left">
-                    <input class="input" type="text" id="fname" placeholder="First name" required>
+                    <input class="input" type="text" name="fname" placeholder="First name" required>
                     <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                     </span>
@@ -36,7 +36,7 @@
             <div class="field">
                 <label class="label">Last Name</label>
                 <p class="control has-icons-left">
-                <input class="input" type="text" id="lname" placeholder="Last Name" required>
+                <input class="input" type="text" name="lname" placeholder="Last Name" required>
                 <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                 </span>
@@ -45,7 +45,7 @@
                 <div class="field">
                     <label class="label">Password</label>
                     <p class="control has-icons-left">
-                    <input class="input" type="password" id="password" placeholder="Password" required>
+                    <input class="input" type="password" name="password" placeholder="Password" id="password" required>
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
@@ -55,7 +55,7 @@
                 <div class="field">
                     <label class="label">Confirm Password</label>
                     <p class="control has-icons-left">
-                    <input class="input" type="password" placeholder="Confirm Password" required>
+                    <input class="input" type="password" placeholder="Confirm Password" id="confirm_password" required>
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
