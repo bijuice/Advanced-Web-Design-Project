@@ -1,130 +1,143 @@
 <div class="container has-text-centered">
-{{#each hobby.intrest}}
-<div class="box has-text-left" >
-                <div class="dropdown">
-                    <button class="settings">
-                        <i class="fa fa-cog fa-lg" aria-hidden="true"></i>              
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="">Edit</a>
-                        <a href="/delete/{{this.id}}">Delete</a>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <span class="label is-large">{{this.name}}</span>
-                    <button class="button is-rounded is-info" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});">
-                        <i class="fas fa-arrow-down"></i>
-                    </button>
-                    </div>
-                </div>
-                
-                <p class="notification is-light">{{this.note}}</p>
-                <div id="extra{{this.id}}" style="display: none;">
-                    <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
-                    <div id="calender_{{this.id}}" style="overflow: auto;"></div>
-                
-                <script>
-                    var activ = get_caldata("{{this.id}}")
-                    options = {
-                    "mainColor" : "{{this.color}}",
-                    "secondaryColor":"#bec2c1"
-                    }
-                    create_calender('calender_{{this.id}}',1,2020,activ,'Art',options);
-                </script>
-                    <div class="container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Week No</th>
-                                    <th>Expected minutes</th>
-                                    <th>Actual minutes</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- for week in int['info'] -->
-                                <tr>
-                                    <td><!-- week['week_no'] --></td>
-                                    <td><!-- week['expected'] --></td>
-                                    <td><!-- week['actual'] --></td>
-                                    <td><button type="button">Edit</button></td>
-                                </tr>
-                                <!-- endfor -->
-                                <form action="/add_date" method="POST">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Expected</th>
-                                        <th>Actual</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input name="id" type="number" value="{{this.id}}" hidden>
-                                            <input name="date" type="date" class="input" required>
-                                        </td>
-                                        <td><input name="expected" type="number" class="input" required></td>
-                                        <td><input name="actual" type="number" class="input" required></td>
-                                        <td><button type="submit">+ Add</button></td>
-                                    </tr>
-                                </form>
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
-                </div>
-{{/each}}
+    {{#if message}}
+    <div class="notification is-dark">
+        <h1 class="title">{{message}}</h1>
+    </div>
+    {{/if}}
+    <div class="field">
+        <div class="control">
+            <button class="icon has-text-light is-large hide-button" onclick="show_addhby(this)" type="button" title="Add Hobby"><i class="fas fa-plus-circle fa-4x"></i></button> 
+        </div>
+    </div>
+    <div class="notification is-dark" id="add_hobby" style="display: none;">
+        <form action="/addhobyy" method="POST" style="width: 60%;">
             <div class="field">
                 <div class="control">
-                    <button class="button is-info" onclick="show_addhby(this)">Add a new hobby</button> 
+                    <input class="input" name="name" type="text" placeholder="Hobby Name" required>
                 </div>
             </div>
-            <div class="notification is-dark" id="add_hobby" style="display: none;">
-                <form action="/addhobyy" method="POST" style="width: 60%;">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" name="name" type="text" placeholder="Hobby Name" required>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" name="note" type="text" placeholder="Note" required>
-                        </div>
-                    </div>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <button class="button is-static" type="button">Color</button>
-                        </div>
-                        <div class="control is-expanded">
-                            <input class="input" name="color" type="color" required>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" name="date" type="date" required>
-                        </div>
-                    </div>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <button class="button is-static" type="button">Expected Minutes</button>
-                        </div>
-                        <div class="control is-expanded">
-                            <input class="input" name="exp" type="number" required>
-                        </div>
-                    </div>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <button class="button is-static" type="button">Actual Hours done</button>
-                        </div>
-                        <div class="control is-expanded">
-                            <input class="input" name="act" type="number" required>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button type="submit" class="button is-success">Add Hobby</button>
-                        </div>
-                    </div>
-                </form>
+            <div class="field">
+                <div class="control">
+                    <input class="input" name="note" type="text" placeholder="Note" required>
+                </div>
             </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <button class="button is-static" type="button">Color</button>
+                </div>
+                <div class="control is-expanded">
+                    <input class="input" name="color" type="color" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" name="date" type="date" required>
+                </div>
+            </div>
+            <!--<div class="field has-addons">
+                <div class="control">
+                    <button class="button is-static" type="button">Expected Minutes</button>
+                </div>
+                <div class="control is-expanded">
+                    <input class="input" name="exp" type="number" required>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <button class="button is-static" type="button">Actual Hours done</button>
+                </div>
+                <div class="control is-expanded">
+                    <input class="input" name="act" type="number" required>
+                </div>
+            </div>-->
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-success">Add Hobby</button>
+                </div>
+                <div class="control">
+                    <button type="reset" class="button is-success">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<div class="columns is-multiline">
+{{#each hobby.intrest}}
+<div class="column">
+    <div class="box has-text-left" style="width: 20em;">
+        <div class="dropdown">
+            <button class="settings">
+                <i class="fa fa-cog fa-lg" aria-hidden="true"></i>              
+            </button>
+            <div class="dropdown-content">
+                <a href="">Edit</a>
+                <a href="/delete?id={{this.id}}">Delete</a>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <span class="label is-large">{{this.name}}</span>
+            <button class="button is-rounded is-info" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});">
+                <i class="fas fa-arrow-down"></i>
+            </button>
+            </div>
+        </div>
+        
+        <p class="notification is-light">{{this.note}}</p>
+        <div id="extra{{this.id}}" style="display: none;">
+            <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
+            <div id="calender_{{this.id}}" style="overflow: auto;"></div>
+        
+        <script>
+            var activ = get_caldata("{{this.id}}")
+            options = {
+            "mainColor" : "{{this.color}}",
+            "secondaryColor":"#bec2c1"
+            }
+            create_calender('calender_{{this.id}}',1,2020,activ,"{{this.name}}",options);
+        </script>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Week No</th>
+                            <th>Expected minutes</th>
+                            <th>Actual minutes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each this.info}}
+                        <tr>
+                            <td>{{this.date}}</td>
+                            <td>{{this.expected}}</td>
+                            <td>{{this.actual}}</td>
+                            <td><button type="button">Edit</button></td>
+                        </tr>
+                        {{/each}}
+                        <form action="/add_date" method="POST">
+                            <tr>
+                                <th>Date</th>
+                                <th>Expected</th>
+                                <th>Actual</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input name="id" type="number" value="{{this.id}}" hidden>
+                                    <input name="date" type="date" class="input" required>
+                                </td>
+                                <td><input name="expected" type="number" class="input" required></td>
+                                <td><input name="actual" type="number" class="input" required></td>
+                                <td><button type="submit">+ Add</button></td>
+                            </tr>
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>             
+{{/each}}
+</div>
+            
 </div>

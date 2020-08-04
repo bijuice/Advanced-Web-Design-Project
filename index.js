@@ -9,6 +9,8 @@ const port = 3000;
 const jsonParser = bodyParser.json();
 const fileName = 'hobby.json';
 const login = require('./login.js')
+const url = require('url');
+
 
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
@@ -40,6 +42,12 @@ function fetch(username){
     return data[username]
 }
 
+function fetch_all(){
+    let rawData = new fs.readFileSync(fileName);
+    let data = JSON.parse(rawData);
+    return data
+}
+
 function check_loggedin(request) {
     if (!request.session.loggedin){
         return false
@@ -61,7 +69,7 @@ function loggedin(request, response) {
 
 app.get('/', (request, response) => {
     if (loggedin(request, response))
-	response.render('home',{"user":check_loggedin(request),hobby:fetch(request.session.username)});
+	response.render('home',{"user":check_loggedin(request),hobby:fetch(request.session.username),message:login.msg(request.session.username)});
 });
 
 app.get('/landing', (request, response) => {
@@ -122,6 +130,55 @@ app.post('/auth', function(request, response) {
 	}
 });
 
+app.post('/addhobyy', jsonParser, (request, response) => {
+    console.log(request.body)
+    data = fetch_all()
+    console.log(request.body.date)
+    var hby = {
+        "id":data[request.session.username]["intrest"].length+1,     
+        "name":request.body.name,          
+        "note":request.body.note,
+        "color": request.body.color,
+        "info":[]
+    }
+    data[request.session.username]["intrest"].push(hby)
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+app.get('/get_array', (request, response) => {
+    var q = url.parse(request.originalUrl, true);
+    var qdata = q.query;
+    var data = fetch(request.session.username);
+    var output = [];
+    data["intrest"].forEach(hby => {
+        if (hby.id == qdata.id){
+            hby.info.forEach( dt => {
+                output.push([dt.date,dt.expected,dt.actual])
+            })
+        }
+    })
+    response.send(output);
+    response.end();
+});
+
+app.get('/get_cal', (request, response) => {
+    var q = url.parse(request.originalUrl, true);
+    var qdata = q.query;
+    var data = fetch(request.session.username);
+    var output = {};
+    data["intrest"].forEach(hby => {
+        if (hby.id == qdata.id){
+            hby.info.forEach( dt => {
+                var day = new Date(dt.date)
+                output[day.getDate()] = ["Expected: "+dt.expected+" minutes","Actual minutes"+dt.actual+" minutes"]
+            })
+        }
+    })
+    response.send(output);
+    response.end();
+});
 
 
 // This is a RESTful GET web service
