@@ -1,15 +1,30 @@
 :root{
     --main: #00C7B7;
     --secondary: #FB6A75;
+    --third:#ee7752;
+    --forth:#23a6d5;
 }
 .hero-body.is-main{
-    background-color: var(--main);
+    background: linear-gradient(-45deg,var(--third),var(--secondary),var(--forth),var(--main));
+    background-size: 400% 400%;
+    animation: gradient 25s ease infinite;
+} 
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 .is-main{
     background-color: var(--main);
 }
 .is-secondary{
-    background-color: var(--secondary);
+    background-color: var(--main);
 }
 .text-is-main{
     color: var(--main);
