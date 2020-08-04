@@ -22,14 +22,14 @@
     }
   }
 
-  body #signUpBG{      
-        background-image: url('static/2.jpg');
-        margin: auto 0px;
-        -webkit-animation-name: loops;
-        -webkit-animation-duration: 35s;
-        -webkit-animation-direction: alternate;
-        -webkit-animation-timing-function: linear;
-        -webkit-animation-iteration-count: infinite;
-        background-repeat: no-repeat;
-        background-size: cover;  
-  }
+#signUpBG{      
+    background-image: url('static/2.jpg');
+    margin: auto 0px;
+    -webkit-animation-name: loops;
+    -webkit-animation-duration: 35s;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
