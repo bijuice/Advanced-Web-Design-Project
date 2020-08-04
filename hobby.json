@@ -8,32 +8,32 @@
         "color": "purple",
         "info": [
           {
-            "date": "2017-10-28",
+            "date": "2020-07-28",
             "actual": 5,
             "expected": 200
           },
           {
-            "date": "2017-10-29",
+            "date": "2020-07-29",
             "actual": 50,
             "expected": 200
           },
           {
-            "date": "2017-10-30",
+            "date": "2020-07-30",
             "actual": 60,
             "expected": 100
           },
           {
-            "date": "2017-10-31",
+            "date": "2020-07-31",
             "actual": 120,
             "expected": 100
           },
           {
-            "date": "2017-11-01",
+            "date": "2020-08-01",
             "actual": 100,
             "expected": 150
           },
           {
-            "date": "2017-11-02",
+            "date": "2020-08-02",
             "actual": 50,
             "expected": 150
           }
@@ -43,7 +43,7 @@
         "id": 2,
         "name": "Music",
         "note": "Needs alot of work",
-        "color": "purple",
+        "color": "orange",
         "info": [
           {
             "date": "2017-10-28",

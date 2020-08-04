@@ -23,5 +23,16 @@ module.exports = {
             }
         });
         return string
+    },
+    checkuser: function (username){
+        let rawData = new fs.readFileSync('user.json');
+        let data = JSON.parse(rawData);
+        var found = false;
+        data.forEach(user =>{
+            if (user.username == username){
+                found = true;
+            }
+        });
+        return found;
     }
 }

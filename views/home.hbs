@@ -1,3 +1,5 @@
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <div class="container has-text-centered">
     {{#if message}}
     <div class="notification is-dark">
@@ -34,22 +36,6 @@
                     <input class="input" name="date" type="date" required>
                 </div>
             </div>
-            <!--<div class="field has-addons">
-                <div class="control">
-                    <button class="button is-static" type="button">Expected Minutes</button>
-                </div>
-                <div class="control is-expanded">
-                    <input class="input" name="exp" type="number" required>
-                </div>
-            </div>
-            <div class="field has-addons">
-                <div class="control">
-                    <button class="button is-static" type="button">Actual Hours done</button>
-                </div>
-                <div class="control is-expanded">
-                    <input class="input" name="act" type="number" required>
-                </div>
-            </div>-->
             <div class="field is-grouped">
                 <div class="control">
                     <button type="submit" class="button is-success">Add Hobby</button>
@@ -75,69 +61,142 @@
         </div>
         <div class="field">
             <div class="control">
-                <span class="label is-large">{{this.name}}</span>
-            <button class="button is-rounded is-info" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});">
+                <span class="label is-large" style="color: {{this.color}};">{{this.name}}</span>
+            <button class="button is-rounded" onclick="show_extra(this,'extra{{this.id}}',get_chartdata('{{this.id}}'),chart_{{this.id}});" style="background-color: {{this.color}};color:white;">
                 <i class="fas fa-arrow-down"></i>
             </button>
             </div>
         </div>
-        
         <p class="notification is-light">{{this.note}}</p>
+        <button class="button" onclick="show_adddayform('{{this.id}}',this)" style="background-color: {{this.color}};color:white;">Add Day</button>
+        <div id="adddayform{{this.id}}" style="display: none;">
+        <hr>
+        <form action="/add_date" method="POST">
+            <input name="id" type="number" value="{{this.id}}" hidden>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Date</label>
+                </div>
+                <div class="control">
+                    <input name="date" type="date" class="input" required>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Expected minutes</label>
+                </div>
+                <div class="control">
+                    <input name="expected" type="number" class="input" required>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control">
+                    <label class="button is-static">Actual minutes</label>
+                </div>
+                <div class="control">
+                    <input name="actual" type="number" class="input" required>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-success" type="submit">Add</button>
+                </div>
+                <div class="control">
+                    <button class="button is-warning" type="reset">Reset</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        </div>
         <div id="extra{{this.id}}" style="display: none;">
             <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
-            <div id="calender_{{this.id}}" style="overflow: auto;"></div>
-        
+            <hr>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calb('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="back" style="color: {{this.color}};"><i class="fas fa-arrow-circle-left fa-4x"></i></button> 
+                </div>
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calf('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="forward" style="color: {{this.color}};"><i class="fas fa-arrow-circle-right fa-4x"></i></button> 
+                </div>
+            </div>
+            <div id="calender_{{this.id}}" style="overflow: auto;" data="0"></div>
+            <hr>        
         <script>
             var activ = get_caldata("{{this.id}}")
             options = {
             "mainColor" : "{{this.color}}",
             "secondaryColor":"#bec2c1"
             }
-            create_calender('calender_{{this.id}}',1,2020,activ,"{{this.name}}",options);
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var year = d.getFullYear();
+            try {
+                activ = activ[year][month];
+            }
+            catch(err) {
+                console.log(err.message);
+            }
+            create_calender('calender_{{this.id}}',month,year,activ,"{{this.name}}",options);
         </script>
             <div class="container">
-                <table class="table">
+                <table class="table" id="table_{{this.id}}">
                     <thead>
                         <tr>
-                            <th>Week No</th>
-                            <th>Expected minutes</th>
-                            <th>Actual minutes</th>
-                            <th></th>
+                            <th>Date</th>
+                            <th>Progress</th>
+                            <th>Add Minutes</th>
+                            <th>Change expected</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each this.info}}
                         <tr>
                             <td>{{this.date}}</td>
-                            <td>{{this.expected}}</td>
-                            <td>{{this.actual}}</td>
-                            <td><button type="button">Edit</button></td>
+                            <td>
+                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}">15%</progress>
+                                <span class="tag is-info">Actual minutes: {{this.actual}}</span><span class="tag is-warning">Expected minutes: {{this.expected}}</span>
+                            </td>
+                            <td>
+                                <form action="">
+                                    <div class="field has-addons"> 
+                                    <div class="control">
+                                        <input class="input" type="number" value="0">
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="">
+                                    <div class="field has-addons"> 
+                                    <div class="control">
+                                        <input class="input" type="number" value="{{this.expected}}">
+                                    </div>
+                                    <div class="control">
+                                        <button type="button" class="button is-warning">Save</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </td>
                         </tr>
                         {{/each}}
-                        <form action="/add_date" method="POST">
-                            <tr>
-                                <th>Date</th>
-                                <th>Expected</th>
-                                <th>Actual</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input name="id" type="number" value="{{this.id}}" hidden>
-                                    <input name="date" type="date" class="input" required>
-                                </td>
-                                <td><input name="expected" type="number" class="input" required></td>
-                                <td><input name="actual" type="number" class="input" required></td>
-                                <td><button type="submit">+ Add</button></td>
-                            </tr>
-                        </form>
                     </tbody>
                 </table>
+                <script>
+                    $(document).ready( function () {
+                        $('#table_{{this.id}}').DataTable();
+                    } );
+                </script>
             </div>
         </div>
     </div>
     </div>             
 {{/each}}
 </div>
-            
+
 </div>

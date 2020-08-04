@@ -1,8 +1,14 @@
 [
-    {
-        "username":"skull",
-        "password":"sha1$22499eb7$1$212f02de0297aff029465a741c806140614b2bce",
-        "fname":"Adam",
-        "lname":"Desa"
-    }
+  {
+    "username": "skull",
+    "password": "sha1$22499eb7$1$212f02de0297aff029465a741c806140614b2bce",
+    "fname": "Adam",
+    "lname": "Desa"
+  },
+  {
+    "username": "Rando",
+    "password": "sha1$d8a07a80$1$26cc8d20cbd085906ea91b3d5283b859ba341ec6",
+    "fname": "John",
+    "lname": "Doe"
+  }
 ]

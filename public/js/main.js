@@ -29,12 +29,20 @@ function show_addhby(button){
     $('#add_hobby').animate({
         height: "toggle"
     });
-
-    var clickNum = $(button).data('clickNum');
-    if (clickNum = 1){
-        gen_chart(data,cid);
-    }
 }
+
+function show_adddayform(id,button){
+    if ($('#adddayform'+id).is(":visible")){
+        $(button).html("Add Day")
+    }
+    else{
+        $(button).html("Hide Add Day")
+    }
+    $('#adddayform'+id).animate({
+        height: "toggle"
+    });
+}
+
 function gen_chart(array,cid){
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -72,4 +80,52 @@ function get_caldata(hby_id){
         url:'/get_cal?id='+hby_id,
         async: false
     }).responseJSON;                     
+}
+
+function move_calb(hbby_id,id,name,options){
+    var d = new Date();
+    var counter = parseInt($('#'+id).attr("data"))
+    counter-=1;
+    $('#'+id).attr("data",counter);
+    d.setMonth(d.getMonth()+counter);
+    var month = d.getMonth()+1;
+    var year = d.getFullYear();
+    var activ = get_caldata(hbby_id);
+    try {
+        activ = activ[year][month];
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    if(typeof activ == 'undefined'){
+        create_calender(id,month,year,{},name,options);
+    }
+    else{
+        console.log(activ)
+        create_calender(id,month,year,activ,name,options);
+    }
+}
+
+function move_calf(hbby_id,id,name,options){
+    var d = new Date();
+    var counter = parseInt($('#'+id).attr("data"))
+    counter+=1;
+    $('#'+id).attr("data",counter);
+    d.setMonth(d.getMonth()+counter);
+    var month = d.getMonth()+1;
+    var year = d.getFullYear();
+    var activ = get_caldata(hbby_id);
+    try {
+        activ = activ[year][month];
+    }
+    catch(err) {
+        console.log(err.message);
+    }
+    if(typeof activ == 'undefined'){
+        create_calender(id,month,year,{},name,options);
+    }
+    else{
+        console.log(activ)
+        create_calender(id,month,year,activ,name,options);
+    }
 }
