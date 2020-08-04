@@ -1,29 +1,29 @@
 @-webkit-keyframes loops{
   0%{
-    background-image: url('static/2.jpg');
+    background-image: url('background_photos/2.jpg');
   }
   15% {
-    background-image: url('static/3.jpg');
+    background-image: url('background_photos/3.jpg');
   }
   30%{
-    background-image: url('static/4.jpg');
+    background-image: url('background_photos/4.jpg');
   }
   45%{
-    background-image: url('static/5.jpg');
+    background-image: url('background_photos/5.jpg');
   }
   60%{
-    background-image: url('static/6.jpg');
+    background-image: url('background_photos/6.jpg');
   }
   75%{
-    background-image: url('static/7.jpg');
+    background-image: url('background_photos/7.jpg');
   }
   100%{
-    background-image: url('static/8.jpg');
+    background-image: url('background_photos/8.jpg');
   }
 }
 
 .hero-body.is-main{      
-  background-image: url('static/2.jpg');
+  background-image: url('background_photos/2.jpg');
   margin: auto 0px;
   -webkit-animation-name: loops;
   -webkit-animation-duration: 35s;
