@@ -17,7 +17,7 @@
             </div>
             {{/if}}
             <h1 class="title is-3">Sign up</h1>
-            <form onSubmit = "return checkPassword(this)" action="/create_ac" method="POST">
+            <form onSubmit = "return checkPassword(this)" action="/signup" method="POST">
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control has-icons-left has-icons-right">
@@ -101,3 +101,17 @@
             </script>
     </div>
 </div>
+<script>
+    function checkPassword(form) { 
+        password1 = form.password.value; 
+        password2 = form.confirm_password.value; 
+        if (password1 != password2) { 
+            alert ("\nPassword did not match: Please try again...") 
+            return false; 
+        } 
+        else{ 
+            alert("Welcome to Hobbity, please login") 
+            return true; 
+        } 
+    } 
+</script>
