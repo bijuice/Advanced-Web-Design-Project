@@ -318,25 +318,11 @@ app.get('/get_cal', (request, response) => {
                 else if ((year in output) && !(month in output[year])){
                     output[year][month] = {};
                 }              
-                output[year][month][day] = ["Expected: "+dt.expected+" minutes","Actual minutes"+dt.actual+" minutes"]
+                output[year][month][day] = ["Expected: "+dt.expected+" minutes","Actual: "+dt.actual+" minutes"]
             })
         }
     })
     response.send(output);
-    response.end();
-});
-
-
-// This is a RESTful GET web service
-app.get('/students', (request, response) => {
-    data.sort((a, b) => (a.name > b.name) ? 1 : -1 );
-    response.send(data);
-});
-
-// This is a RESTful POST web service
-app.post('/students', jsonParser, (request, response) => {
-    data.push(request.body);
-    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
     response.end();
 });
 
