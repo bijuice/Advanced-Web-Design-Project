@@ -249,7 +249,7 @@ app.post('/add_date', jsonParser, (request, response) => {
             }
         })
         fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
-        response.send("Date added");
+        response.redirect('/');
     }
 });
 

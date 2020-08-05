@@ -24,7 +24,7 @@
           },
           {
             "date": "2020-07-31",
-            "actual": 120,
+            "actual": 100,
             "expected": 100
           },
           {
@@ -36,6 +36,11 @@
             "date": "2020-08-02",
             "actual": 50,
             "expected": 150
+          },
+          {
+            "date": "2020-08-05",
+            "actual": 0,
+            "expected": 100
           }
         ]
       },
@@ -103,6 +108,16 @@
           {
             "date": "2020-08-07",
             "actual": 0,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-01",
+            "actual": 90,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-03",
+            "actual": 10,
             "expected": 100
           }
         ]
