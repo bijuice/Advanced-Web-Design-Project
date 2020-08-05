@@ -134,7 +134,7 @@
         <button class="button" onclick="show_adddayform('{{this.id}}',this)" style="background-color: {{this.color}};color:white;">Add Day</button>
         <div id="adddayform{{this.id}}" style="display: none;">
         <hr>
-        <form action="/add_date" method="POST">
+        <form onsubmit="add_date_submit(this,$(this).serialize())">
             <input name="id" type="number" value="{{this.id}}" hidden>
             <div class="field has-addons">
                 <div class="control">
@@ -171,13 +171,14 @@
         </form>
         </div>
         <hr>
-            <div class="container">
+            <div class="container is-special">
+                <input name="id" type="number" value="{{this.id}}" hidden>
                 <table class="table" id="table_{{this.id}}">
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Progress</th>
-                            <th>Add Minutes</th>
+                            <th>Add/Remove actual Minutes</th>
                             <th>Change expected</th>
                         </tr>
                     </thead>
@@ -188,32 +189,31 @@
                                 {{this.date}}
                             </td>
                             <td>
-                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}">15%</progress>
+                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}"></progress>
                                 <span class="tag is-info">Actual minutes: {{this.actual}}</span><span class="tag is-warning">Expected minutes: {{this.expected}}</span>
                             </td>
                             <td>
-                                <form action="">
+                                <form onsubmit="edit_actual(this,$(this).serialize())">
+                                    <input name="date" type="text" value="{{this.date}}" hidden>
                                     <div class="field has-addons"> 
-                                    <div class="control">
-                                        <input class="input" type="number" value="0">
+                                        <div class="control">
+                                            <input class="input" name="calc" type="number" placeholder="0" required>
+                                        </div>
+                                        <div class="control">
+                                            <button type="submit" class="button">Change Actual</button>
+                                        </div>
                                     </div>
-                                    <div class="control">
-                                        <button type="button" class="button"><i class="fas fa-plus"></i></button>
-                                    </div>
-                                    <div class="control">
-                                        <button type="button" class="button"><i class="fas fa-minus"></i></button>
-                                    </div>
-                                </div>
                                 </form>
                             </td>
                             <td>
-                                <form action="">
+                                <form onsubmit="edit_exp(this,$(this).serialize())">
+                                    <input name="date" type="text" value="{{this.date}}" hidden>
                                     <div class="field has-addons"> 
                                     <div class="control">
-                                        <input class="input" type="number" value="{{this.expected}}">
+                                        <input name="expected" class="input" type="number" value="{{this.expected}}">
                                     </div>
                                     <div class="control">
-                                        <button type="button" class="button is-warning">Save</button>
+                                        <button type="submit" class="button is-warning">Save</button>
                                     </div>
                                 </div>
                                 </form>
@@ -225,7 +225,7 @@
                 <script>
                     $(document).ready( function () {
                         $('#table_{{this.id}}').DataTable({
-                                "order": [[ 1, "asc" ]]
+                                "order": [[ 0, "desc" ]]
                             }
                         );
                     } );

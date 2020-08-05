@@ -216,20 +216,71 @@ app.get('/delete', jsonParser, (request, response) => {
     response.end();
 });
 
+function check_date(date,hbyid,username){
+    data = fetch_all()
+    var found = false;
+    data[username]["intrest"].forEach(hby => {
+        if (hby.id == hbyid){
+            hby.info.forEach( date_array => {
+                if (date_array.date == date){
+                    found = true;
+                }
+            });
+        }
+    });
+    return found;
+}
+
 app.post('/add_date', jsonParser, (request, response) => {
+    if (check_date(request.body.date,request.body.id,request.session.username)){
+        response.status(400).send({
+            message: 'That Date already exists'
+         });
+    }
+    else{
+        data = fetch_all()
+        data[request.session.username]["intrest"].forEach(hby => {
+            if (hby.id == request.body.id){
+                hby.info.push({
+                    "date": request.body.date,
+                    "actual": parseInt(request.body.actual),
+                    "expected": parseInt(request.body.expected)
+                });
+            }
+        })
+        fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+        response.send("Date added");
+    }
+});
+
+app.post('/edit_date_actual', jsonParser, (request, response) => {
     data = fetch_all()
     data[request.session.username]["intrest"].forEach(hby => {
         if (hby.id == request.body.id){
-            hby.info.push({
-                "date": request.body.date,
-                "actual": parseInt(request.body.actual),
-                "expected": parseInt(request.body.expected)
-              });
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.actual = parseInt(request.body.final);
+                }
+            }); 
         }
     })
     fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
-    response.redirect('/');
-    response.end();
+    response.send("Done!");
+});
+
+app.post('/edit_date_expected', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.expected = parseInt(request.body.expected);
+                }
+            }); 
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.send("Done!");
 });
 
 app.get('/get_array', (request, response) => {
