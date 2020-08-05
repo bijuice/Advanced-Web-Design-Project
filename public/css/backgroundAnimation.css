@@ -27,8 +27,9 @@
   margin: auto 0px;
   -webkit-animation-name: loops;
   -webkit-animation-duration: 35s;
+  -webkit-animation-delay: 2s;
   -webkit-animation-direction: alternate;
-  -webkit-animation-timing-function: linear;
+  -webkit-animation-timing-function: ease;
   -webkit-animation-iteration-count: infinite;
   background-repeat: no-repeat;
   background-size: cover;  
