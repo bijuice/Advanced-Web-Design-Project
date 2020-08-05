@@ -79,10 +79,33 @@
       },
       {
         "id": 3,
-        "name": "Hockey",
-        "note": "fun",
-        "color": "#ff4d00",
+        "name": "Gaming",
+        "note": "Im too good",
+        "color": "#44a7e4",
         "info": []
+      },
+      {
+        "id": 4,
+        "name": "Cubing",
+        "note": "6X6",
+        "color": "#10b123",
+        "info": [
+          {
+            "date": "2020-08-05",
+            "actual": 120,
+            "expected": 200
+          },
+          {
+            "date": "2020-08-06",
+            "actual": 0,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-07",
+            "actual": 0,
+            "expected": 100
+          }
+        ]
       }
     ]
   }

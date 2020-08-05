@@ -43,6 +43,12 @@ function show_adddayform(id,button){
     });
 }
 
+function show_edit(id){
+    $('#edit'+id).animate({
+        height: "toggle"
+    });
+}
+
 function gen_chart(array,cid){
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -128,4 +134,70 @@ function move_calf(hbby_id,id,name,options){
         console.log(activ)
         create_calender(id,month,year,activ,name,options);
     }
+}
+
+function move_progress(form){
+    var numby = $(form).find('input[name="calc"]');
+    var prog = $(form).parents("tr").find("progress");
+    var label = $(form).parents("tr").find("span:contains('Actual')");
+
+    var final = parseInt(numby.val())+parseInt(prog.attr("value"))
+    prog.attr("value",final)
+    label.html("Actual minutes: "+final)
+    return final;
+}
+
+function edit_actual(form,fdata){
+    var final = move_progress(form);
+    var id_inp = $(form).parents("div.container.is-special").find('input[name="id"]').val();
+    fdata = "id="+id_inp+"&"+fdata+"&final="+final;
+    $(this).submit(function (e) {
+            $.ajax({
+                type: "POST",
+                data: fdata,
+                url: '/edit_date_actual',
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                        alert("Ohh no something went wrong T_T")
+                    }
+                });
+            e.preventDefault();
+        })
+}
+
+function edit_exp(form,fdata){
+    var id_inp = $(form).parents("div.container.is-special").find('input[name="id"]').val();
+    fdata = "id="+id_inp+"&"+fdata;
+    alert(fdata)
+    $(this).submit(function (e) {
+            $.ajax({
+                type: "POST",
+                data: fdata,
+                url: '/edit_date_expected',
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                        alert("Ohh no something went wrong T_T")
+                    }
+                });
+        })
+}
+
+function add_date_submit(form,fdata){
+    $(this).submit(function (e) {
+        $.ajax({
+            type: "POST",
+            data: fdata,
+            url: '/add_date',
+            success: function (data) {
+                alert(data)
+            },
+            error: function (data) {
+                alert(data.responseJSON["message"])
+                }
+            });           
+        })
 }

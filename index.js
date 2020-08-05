@@ -134,7 +134,7 @@ app.get('/edit_ac', (request, response) => {
     response.render('edit_ac',{"user":check_loggedin(request)});
 });
 
-app.get('/edit?hobby_id', (request, response) => {
+app.get('/edit', (request, response) => {
     response.render('edit_hby',{"user":check_loggedin(request)});
 });
 
@@ -181,6 +181,106 @@ app.post('/addhobyy', jsonParser, (request, response) => {
     fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
     response.redirect('/');
     response.end();
+});
+
+app.post('/edithobby', jsonParser, (request, response) => {
+    data = fetch(request.session.username)
+    data["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.name = request.body.name;
+            hby.note = request.body.note;
+            hby.color = request.body.color;
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+app.get('/delete', jsonParser, (request, response) => {
+    var q = url.parse(request.originalUrl, true);
+    var qdata = q.query;
+    data = fetch(request.session.username)
+    data["intrest"].forEach(function(hby,index,Object){
+        if (hby.id == qdata.id){
+            Object.splice(index,1);
+        }
+    })
+    data["intrest"].forEach( function(hoby,index,Object){
+        hoby.id = index+1;
+    });
+    overall_data = fetch_all()
+    overall_data[request.session.username] = data;
+    fs.writeFileSync(fileName, JSON.stringify(overall_data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+function check_date(date,hbyid,username){
+    data = fetch_all()
+    var found = false;
+    data[username]["intrest"].forEach(hby => {
+        if (hby.id == hbyid){
+            hby.info.forEach( date_array => {
+                if (date_array.date == date){
+                    found = true;
+                }
+            });
+        }
+    });
+    return found;
+}
+
+app.post('/add_date', jsonParser, (request, response) => {
+    if (check_date(request.body.date,request.body.id,request.session.username)){
+        response.status(400).send({
+            message: 'That Date already exists'
+         });
+    }
+    else{
+        data = fetch_all()
+        data[request.session.username]["intrest"].forEach(hby => {
+            if (hby.id == request.body.id){
+                hby.info.push({
+                    "date": request.body.date,
+                    "actual": parseInt(request.body.actual),
+                    "expected": parseInt(request.body.expected)
+                });
+            }
+        })
+        fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+        response.send("Date added");
+    }
+});
+
+app.post('/edit_date_actual', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.actual = parseInt(request.body.final);
+                }
+            }); 
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.send("Done!");
+});
+
+app.post('/edit_date_expected', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.expected = parseInt(request.body.expected);
+                }
+            }); 
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.send("Done!");
 });
 
 app.get('/get_array', (request, response) => {
