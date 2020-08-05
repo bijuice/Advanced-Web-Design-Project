@@ -134,7 +134,7 @@ app.get('/edit_ac', (request, response) => {
     response.render('edit_ac',{"user":check_loggedin(request)});
 });
 
-app.get('/edit?hobby_id', (request, response) => {
+app.get('/edit', (request, response) => {
     response.render('edit_hby',{"user":check_loggedin(request)});
 });
 
@@ -179,6 +179,25 @@ app.post('/addhobyy', jsonParser, (request, response) => {
     }
     data[request.session.username]["intrest"].push(hby)
     fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+app.get('/delete', jsonParser, (request, response) => {
+    var q = url.parse(request.originalUrl, true);
+    var qdata = q.query;
+    data = fetch(request.session.username)
+    data["intrest"].forEach(function(hby,index,Object){
+        if (hby.id == qdata.id){
+            Object.splice(index,1);
+        }
+    })
+    data["intrest"].forEach( function(hoby,index,Object){
+        hoby.id = index+1;
+    });
+    overall_data = fetch_all()
+    overall_data[request.session.username] = data;
+    fs.writeFileSync(fileName, JSON.stringify(overall_data, null, 2));
     response.redirect('/');
     response.end();
 });

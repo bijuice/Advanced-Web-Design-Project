@@ -79,9 +79,16 @@
       },
       {
         "id": 3,
-        "name": "Hockey",
-        "note": "fun",
-        "color": "#ff4d00",
+        "name": "Cubbing",
+        "note": "gOTTA GET FASTER",
+        "color": "#07b612",
+        "info": []
+      },
+      {
+        "id": 4,
+        "name": "Gaming",
+        "note": "Im too good",
+        "color": "#44a7e4",
         "info": []
       }
     ]
