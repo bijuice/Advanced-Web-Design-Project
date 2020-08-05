@@ -183,6 +183,20 @@ app.post('/addhobyy', jsonParser, (request, response) => {
     response.end();
 });
 
+app.post('/edithobby', jsonParser, (request, response) => {
+    data = fetch(request.session.username)
+    data["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.name = request.body.name;
+            hby.note = request.body.note;
+            hby.color = request.body.color;
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
 app.get('/delete', jsonParser, (request, response) => {
     var q = url.parse(request.originalUrl, true);
     var qdata = q.query;
@@ -198,6 +212,22 @@ app.get('/delete', jsonParser, (request, response) => {
     overall_data = fetch_all()
     overall_data[request.session.username] = data;
     fs.writeFileSync(fileName, JSON.stringify(overall_data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+app.post('/add_date', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.push({
+                "date": request.body.date,
+                "actual": parseInt(request.body.actual),
+                "expected": parseInt(request.body.expected)
+              });
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
     response.redirect('/');
     response.end();
 });

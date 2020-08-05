@@ -43,6 +43,12 @@ function show_adddayform(id,button){
     });
 }
 
+function show_edit(id){
+    $('#edit'+id).animate({
+        height: "toggle"
+    });
+}
+
 function gen_chart(array,cid){
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
