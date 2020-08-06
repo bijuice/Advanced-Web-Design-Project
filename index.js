@@ -130,8 +130,16 @@ app.get('/create_ac', (request, response) => {
 });
 
 app.get('/edit_ac', (request, response) => {
-    if (loggedin(request, response))
-    response.render('edit_ac',{"user":check_loggedin(request)});
+    if (loggedin(request, response)){
+        if (request.session.flash){
+            var message = request.session.flash["message"]
+            request.session.flash["message"] = []
+            response.render('edit_ac',{"user":check_loggedin(request),"flash":message,"info":login.user_dets(request.session.username)});
+        }
+        else {
+            response.render('edit_ac',{"user":check_loggedin(request),"info":login.user_dets(request.session.username)});
+            }
+    }
 });
 
 app.get('/edit', (request, response) => {
@@ -325,6 +333,55 @@ app.get('/get_cal', (request, response) => {
     response.send(output);
     response.end();
 });
+
+app.post('/edit_ac_password', (request, response) => {
+
+    var password = request.body.password;
+    var found = false;
+    var users = login.fetch()
+    users.forEach(element => {
+        if (request.session.username == element.username && login.checkhash(password,element.password)) {
+                element.password = login.hashpassword(request.body.npassword);
+                found = true;
+            }            
+        });
+    fs.writeFileSync('user.json', JSON.stringify(users, null, 2));
+    if (found){
+        request.flash('message', 'Settings changed');
+        response.redirect('/edit_ac');
+        response.end();                	
+    }
+    else{
+        request.flash('message', 'Incorrect Password!, please try again');
+        response.redirect('/edit_ac');
+        response.end();
+    }
+});
+
+app.post('/edit_ac_dets', (request, response) => {
+    var found = false;
+    var users = login.fetch()
+    users.forEach(element => {
+        if (request.session.username == element.username) {
+                element.fname = request.body.fname;
+                element.lname = request.body.lname;
+                found = true;
+            }            
+        });
+    fs.writeFileSync('user.json', JSON.stringify(users, null, 2));
+    if (found){
+        request.flash('message', 'Settings changed');
+        response.redirect('/edit_ac');
+        response.end();                	
+    }
+    else{
+        request.flash('message', 'Incorrect Password!, please try again');
+        response.redirect('/edit_ac');
+        response.end();
+    }
+
+});
+
 
 app.listen(port);
 console.log('server listening on port 3000');
