@@ -193,10 +193,10 @@ function add_date_submit(form,fdata){
             data: fdata,
             url: '/add_date',
             success: function (data) {
-                alert(data)
+                alert("Date added")
             },
             error: function (data) {
-                alert(data.responseJSON["message"])
+                alert("That date already exists")
                 }
             });           
         })

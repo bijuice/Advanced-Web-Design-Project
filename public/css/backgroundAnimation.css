@@ -27,14 +27,42 @@
   margin: auto 0px;
   -webkit-animation-name: loops;
   -webkit-animation-duration: 35s;
-  -webkit-animation-delay: 2s;
-  -webkit-animation-direction: alternate;
+  -webkit-animation-delay: 1s;
+  -webkit-animation-direction: normal;
   -webkit-animation-timing-function: ease;
   -webkit-animation-iteration-count: infinite;
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
+  
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility:    hidden;
+  -ms-backface-visibility:     hidden;
 }
 
 .box{
   background-color: rgba(255, 255, 255, 0.90);
+}
+
+.image-holder{
+  top: 5rem;
+  flex-grow: 1;
+  flex-shrink: 0;
+  position: absolute;
+  width: 100vw;
+  height: calc(100vh - 5rem);
+  z-index: -1;
+  background-image: url('background_photos/2.jpg');
+  margin: auto 0px;
+  -webkit-animation-name: loops;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-delay: 0.1s;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility:    hidden;
+  -ms-backface-visibility:     hidden;
 }
