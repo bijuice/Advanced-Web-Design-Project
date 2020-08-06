@@ -5,7 +5,7 @@
         "id": 1,
         "name": "Art",
         "note": "my fav <3",
-        "color": "purple",
+        "color": "#610872",
         "info": [
           {
             "date": "2020-07-28",
@@ -39,7 +39,7 @@
           },
           {
             "date": "2020-08-05",
-            "actual": 0,
+            "actual": 100,
             "expected": 100
           }
         ]
@@ -47,8 +47,8 @@
       {
         "id": 2,
         "name": "Music",
-        "note": "Needs alot of work",
-        "color": "orange",
+        "note": "Needs more work",
+        "color": "#e8a411",
         "info": [
           {
             "date": "2017-10-28",
