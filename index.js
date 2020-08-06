@@ -192,8 +192,8 @@ app.post('/addhobyy', jsonParser, (request, response) => {
 });
 
 app.post('/edithobby', jsonParser, (request, response) => {
-    data = fetch(request.session.username)
-    data["intrest"].forEach(hby => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
         if (hby.id == request.body.id){
             hby.name = request.body.name;
             hby.note = request.body.note;
@@ -299,7 +299,7 @@ app.get('/get_array', (request, response) => {
     data["intrest"].forEach(hby => {
         if (hby.id == qdata.id){
             hby.info.forEach( dt => {
-                output.push([dt.date,dt.expected,dt.actual])
+                output.push([dt.date,dt.actual,dt.expected])
             })
         }
     })
