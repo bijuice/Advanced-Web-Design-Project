@@ -4,5 +4,11 @@
     "password": "sha1$6284f24e$1$30a68647b4acdf4731c4376ada65a78b9aaae4dc",
     "fname": "Adam",
     "lname": "Desa"
+  },
+  {
+    "username": "3asfoury",
+    "password": "sha1$82bd34fb$1$2ac8a6be6eb06aad590e4d758169c55eb8e54ea0",
+    "fname": "Mahmoud",
+    "lname": "Elasfoury"
   }
 ]
