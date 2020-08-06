@@ -129,10 +129,10 @@ app.get('/create_ac', (request, response) => {
         }
 });
 
-app.get('/edit_ac', (request, response) => {
-    if (loggedin(request, response))
-    response.render('edit_ac',{"user":check_loggedin(request)});
-});
+//app.get('/edit_ac', (request, response) => {
+ //   if (loggedin(request, response))
+//    response.render('edit_ac',{"user":check_loggedin(request)});
+//});
 
 app.get('/edit?hobby_id', (request, response) => {
     response.render('edit_hby',{"user":check_loggedin(request)});
@@ -226,6 +226,57 @@ app.get('/get_cal', (request, response) => {
     response.end();
 });
 
+app.get('/edit_ac', (request, response) => {
+    // if (loggedin(request, response))
+     //response.render('edit_ac',{"user":check_loggedin(request)});
+     var password = request.body.password;
+     var found = false;
+   //  if (password){
+         var users = login.fetch()
+         users.forEach(element => {
+             if (request.session.username == element.username && login.checkhash(password,element.password)) {
+                 if (request.session.fname == "" || request.session.lname == ""){
+                     element.password = request.body.npassword;
+                     found = true;        
+                 }
+           
+                 else if(request.session.lname == ""){
+                     element.fname = request.body.fname;
+                     element.password = request.body.npassword;
+                     found = true;
+                 }
+                 else if(request.session.fname == ""){
+                     element.lname = request.body.lname;
+                     element.password = request.body.npassword;
+                     found = true;
+                 }
+                 else{
+                     element.fname = request.body.fname;
+                     element.lname = request.body.lname;
+                     element.password = request.body.npassword;
+                     found = true;
+                 }
+             
+             if (found){
+                 request.flash('message', 'Success');
+                 response.redirect('/');
+                 response.end();                	
+             }
+            else{
+               request.flash('message', 'Incorrect Password!, please try again');
+                 response.redirect('/edit_ac');
+                 response.end();
+             }
+         } 
+       //  }
+         else {
+             request.flash('message', 'Incorrect Password!, please try again');
+             response.redirect('/edit_ac'); 
+             response.end();
+         }
+ 
+ });
+ });
 
 // This is a RESTful GET web service
 app.get('/students', (request, response) => {

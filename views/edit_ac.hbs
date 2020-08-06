@@ -1,0 +1,90 @@
+<script>
+  $("div.hero-body.is-main").addClass("has-gradient")
+</script>
+    <div class="container has-text-centered">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box">
+            {{#if flash}}
+            <div class="notification is-danger">
+            {{flash}}
+            </div>
+            {{/if}}
+            <h1 class="title is-3">Edit Account</h1>
+            <h3 class="subtitle is-4">You can edit you names and your password here</h3>
+            <form onSubmit = "return checkPassword(this)" action="/edit_ac" method="GET">
+                <div class="field">
+                <label class="label">New First Name</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="text" name="fname" id="fname" placeholder="First name" >
+                    <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+                </div>
+            <div class="field">
+                <label class="label">New Last Name</label>
+                <p class="control has-icons-left">
+                <input class="input" type="text" name="lname" id="lname" placeholder="Last Name" >
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+                </p>
+            </div>
+                <div class="field">
+                    <label class="label">Old Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" name="password" placeholder="Password" id="password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">New Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" name="npassword" placeholder="New Password" id="npassword" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Confirm Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Confirm Password" id="confirm_password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-success" type="submit">Submit</button>
+                    </div>  
+                </div>
+
+                </div>
+                
+            </form>  
+            <script>
+            function checkPassword(form) { 
+                password1 = form.password.value; 
+                password2 = form.confirm_password.value; 
+                if (password1 == '') 
+                    alert ("Please enter Password");                       
+                else if (password2 == '') 
+                    alert ("Please enter confirm password"); 
+                    else if (password1 != password2) { 
+                    alert ("\nPassword did not match: Please try again...") 
+                    return false; 
+                } 
+                  else{ 
+                    alert("Names and password have been changed successfully") 
+                    return true; 
+                } 
+            } 
+            </script>
+    </div>
+</div>
