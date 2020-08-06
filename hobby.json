@@ -5,7 +5,7 @@
         "id": 1,
         "name": "Art",
         "note": "my fav <3",
-        "color": "purple",
+        "color": "#610872",
         "info": [
           {
             "date": "2020-07-28",
@@ -24,7 +24,7 @@
           },
           {
             "date": "2020-07-31",
-            "actual": 120,
+            "actual": 100,
             "expected": 100
           },
           {
@@ -36,14 +36,19 @@
             "date": "2020-08-02",
             "actual": 50,
             "expected": 150
+          },
+          {
+            "date": "2020-08-05",
+            "actual": 100,
+            "expected": 100
           }
         ]
       },
       {
         "id": 2,
         "name": "Music",
-        "note": "Needs alot of work",
-        "color": "orange",
+        "note": "Needs more work",
+        "color": "#e8a411",
         "info": [
           {
             "date": "2017-10-28",
@@ -79,9 +84,53 @@
       },
       {
         "id": 3,
-        "name": "Hockey",
-        "note": "fun",
-        "color": "#ff4d00",
+        "name": "Gaming",
+        "note": "Im too good",
+        "color": "#44a7e4",
+        "info": []
+      },
+      {
+        "id": 4,
+        "name": "Cubing",
+        "note": "6X6",
+        "color": "#10b123",
+        "info": [
+          {
+            "date": "2020-08-05",
+            "actual": 120,
+            "expected": 200
+          },
+          {
+            "date": "2020-08-06",
+            "actual": 0,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-07",
+            "actual": 0,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-01",
+            "actual": 90,
+            "expected": 100
+          },
+          {
+            "date": "2020-08-03",
+            "actual": 10,
+            "expected": 100
+          }
+        ]
+      }
+    ]
+  },
+  "3asfoury": {
+    "intrest": [
+      {
+        "id": 1,
+        "name": "Art",
+        "note": "nbvgfds",
+        "color": "#000000",
         "info": []
       }
     ]

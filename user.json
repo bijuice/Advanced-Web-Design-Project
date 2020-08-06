@@ -1,12 +1,13 @@
 [
   {
     "username": "skull",
-    "password": "sha1$22499eb7$1$212f02de0297aff029465a741c806140614b2bce",
+    "password": "sha1$6284f24e$1$30a68647b4acdf4731c4376ada65a78b9aaae4dc",
     "fname": "Adam",
     "lname": "Desa"
   },
   {
     "username": "3asfoury",
+<<<<<<< HEAD
     "password": "sha1$de8aca36$1$4d0ff3200e41599064d238b9556680442eebb9df",
     "fname": "Mahmoud",
     "lname": "Elasfoury"
@@ -28,5 +29,10 @@
     "password": "sha1$5bc73f0d$1$b4d58ddcf05c6240fe4b31c5bb9b4dd1ebb2cb61",
     "fname": "Mahammad",
     "lname": "Ashraf"
+=======
+    "password": "sha1$82bd34fb$1$2ac8a6be6eb06aad590e4d758169c55eb8e54ea0",
+    "fname": "Mahmoud",
+    "lname": "Elasfoury"
+>>>>>>> master
   }
 ]

@@ -24,6 +24,18 @@ module.exports = {
         });
         return string
     },
+    user_dets: function (username){
+        let rawData = new fs.readFileSync('user.json');
+        let data = JSON.parse(rawData);
+        var user_info = {};
+        data.forEach(user =>{
+            if (user.username == username){
+                user_info["fname"] = user.fname;
+                user_info["lname"] = user.lname;
+            }
+        });
+        return user_info
+    },
     checkuser: function (username){
         let rawData = new fs.readFileSync('user.json');
         let data = JSON.parse(rawData);

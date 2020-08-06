@@ -2,7 +2,7 @@
 <link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <div class="container has-text-centered">
     {{#if message}}
-    <div class="notification is-dark">
+    <div class="notification">
         <h1 class="title">{{message}}</h1>
     </div>
     {{/if}}
@@ -21,9 +21,9 @@
                             <input class="input" name="name" type="text" placeholder="Hobby Name" required>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="field">                        
                         <div class="control">
-                            <input class="input" name="note" type="text" placeholder="Note" required>
+                            <textarea name="note" class="textarea" required></textarea>
                         </div>
                     </div>
                     <div class="field has-addons">
@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-<div class="columns is-multiline">
+<div class="columns is-mobile is-multiline is-centered">
 {{#each hobby.intrest}}
 <div class="column">
     <div class="box has-text-left" style="width: 20em;">
@@ -55,10 +55,43 @@
                 <i class="fa fa-cog fa-lg" aria-hidden="true"></i>              
             </button>
             <div class="dropdown-content">
-                <a href="">Edit</a>
-                <a href="/delete?id={{this.id}}">Delete</a>
+                <a onclick="show_edit({{this.id}})">Edit</a>
+                <a onclick="return confirm('Are you sure?');" href="/delete?id={{this.id}}">Delete</a>
             </div>
         </div>
+        <div class="" id="edit{{this.id}}" style="display: none;">
+            <form action="/edithobby" method="POST" style="width: 60%;">
+                <input name="id" type="number" value="{{this.id}}" hidden>
+                <div class="field">
+                    <label>Hobby Name:</label>
+                    <div class="control">
+                        <input class="input" name="name" type="text" placeholder="Hobby Name" value="{{this.name}}" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Note:</label>
+                    <div class="control">
+                        <textarea name="note" class="textarea" required>{{this.note}}</textarea>
+                    </div>
+                </div>
+                <div class="field has-addons">
+                    <div class="control">
+                        <button class="button is-static" type="button">Color</button>
+                    </div>
+                    <div class="control is-expanded">
+                        <input class="input" name="color" type="color" value="{{this.color}}" required>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-success">Edit Hobby</button>
+                    </div>
+                    <div class="control">
+                        <button type="reset" class="button is-danger" onclick="show_edit({{this.id}})">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div> 
         <div class="field">
             <div class="control">
                 <span class="label is-large" style="color: {{this.color}};">{{this.name}}</span>
@@ -68,10 +101,40 @@
             </div>
         </div>
         <p class="notification is-light">{{this.note}}</p>
+        <div id="extra{{this.id}}" style="display: none;">
+            <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
+            <hr>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calb('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="back" style="color: {{this.color}};"><i class="fas fa-arrow-circle-left fa-4x"></i></button> 
+                </div>
+                <div class="control">
+                    <button class="icon is-large hide-button" onclick="move_calf('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="forward" style="color: {{this.color}};"><i class="fas fa-arrow-circle-right fa-4x"></i></button> 
+                </div>
+            </div>
+            <div id="calender_{{this.id}}" style="overflow: auto;" data="0"></div>
+            <hr>        
+        <script>
+            var activ = get_caldata("{{this.id}}")
+            options = {
+            "mainColor" : "{{this.color}}",
+            "secondaryColor":"#bec2c1"
+            }
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var year = d.getFullYear();
+            try {
+                activ = activ[year][month];
+            }
+            catch(err) {
+                console.log(err.message);
+            }
+            create_calender('calender_{{this.id}}',month,year,activ,"{{this.name}}",options);
+        </script>
         <button class="button" onclick="show_adddayform('{{this.id}}',this)" style="background-color: {{this.color}};color:white;">Add Day</button>
         <div id="adddayform{{this.id}}" style="display: none;">
         <hr>
-        <form action="/add_date" method="POST">
+        <form onsubmit="add_date_submit(this,$(this).serialize())">
             <input name="id" type="number" value="{{this.id}}" hidden>
             <div class="field has-addons">
                 <div class="control">
@@ -106,79 +169,51 @@
                 </div>
             </div>
         </form>
-        <hr>
         </div>
-        <div id="extra{{this.id}}" style="display: none;">
-            <div id="chart_{{this.id}}" style="width: 900px; height: 500px"></div>
-            <hr>
-            <div class="field is-grouped">
-                <div class="control">
-                    <button class="icon is-large hide-button" onclick="move_calb('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="back" style="color: {{this.color}};"><i class="fas fa-arrow-circle-left fa-4x"></i></button> 
-                </div>
-                <div class="control">
-                    <button class="icon is-large hide-button" onclick="move_calf('{{this.id}}','calender_{{this.id}}','{{this.name}}',{'mainColor' : '{{this.color}}','secondaryColor':'#bec2c1'})" type="button" title="forward" style="color: {{this.color}};"><i class="fas fa-arrow-circle-right fa-4x"></i></button> 
-                </div>
-            </div>
-            <div id="calender_{{this.id}}" style="overflow: auto;" data="0"></div>
-            <hr>        
-        <script>
-            var activ = get_caldata("{{this.id}}")
-            options = {
-            "mainColor" : "{{this.color}}",
-            "secondaryColor":"#bec2c1"
-            }
-            var d = new Date();
-            var month = d.getMonth()+1;
-            var year = d.getFullYear();
-            try {
-                activ = activ[year][month];
-            }
-            catch(err) {
-                console.log(err.message);
-            }
-            create_calender('calender_{{this.id}}',month,year,activ,"{{this.name}}",options);
-        </script>
-            <div class="container">
+        <hr>
+            <div class="container is-special">
+                <input name="id" type="number" value="{{this.id}}" hidden>
                 <table class="table" id="table_{{this.id}}">
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Progress</th>
-                            <th>Add Minutes</th>
+                            <th>Add/Remove actual Minutes</th>
                             <th>Change expected</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each this.info}}
                         <tr>
-                            <td>{{this.date}}</td>
                             <td>
-                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}">15%</progress>
+                                {{this.date}}
+                            </td>
+                            <td>
+                                <progress class="progress is-success" value="{{this.actual}}" max="{{this.expected}}"></progress>
                                 <span class="tag is-info">Actual minutes: {{this.actual}}</span><span class="tag is-warning">Expected minutes: {{this.expected}}</span>
                             </td>
                             <td>
-                                <form action="">
+                                <form onsubmit="edit_actual(this,$(this).serialize())">
+                                    <input name="date" type="text" value="{{this.date}}" hidden>
                                     <div class="field has-addons"> 
-                                    <div class="control">
-                                        <input class="input" type="number" value="0">
+                                        <div class="control">
+                                            <input class="input" name="calc" type="number" placeholder="0" required>
+                                        </div>
+                                        <div class="control">
+                                            <button type="submit" class="button">Add/Remove Actual</button>
+                                        </div>
                                     </div>
-                                    <div class="control">
-                                        <button type="button" class="button"><i class="fas fa-plus"></i></button>
-                                    </div>
-                                    <div class="control">
-                                        <button type="button" class="button"><i class="fas fa-minus"></i></button>
-                                    </div>
-                                </div>
                                 </form>
                             </td>
                             <td>
-                                <form action="">
+                                <form onsubmit="edit_exp(this,$(this).serialize())">
+                                    <input name="date" type="text" value="{{this.date}}" hidden>
                                     <div class="field has-addons"> 
                                     <div class="control">
-                                        <input class="input" type="number" value="{{this.expected}}">
+                                        <input name="expected" class="input" type="number" value="{{this.expected}}">
                                     </div>
                                     <div class="control">
-                                        <button type="button" class="button is-warning">Save</button>
+                                        <button type="submit" class="button is-warning">Save</button>
                                     </div>
                                 </div>
                                 </form>
@@ -189,7 +224,10 @@
                 </table>
                 <script>
                     $(document).ready( function () {
-                        $('#table_{{this.id}}').DataTable();
+                        $('#table_{{this.id}}').DataTable({
+                                "order": [[ 0, "desc" ]]
+                            }
+                        );
                     } );
                 </script>
             </div>

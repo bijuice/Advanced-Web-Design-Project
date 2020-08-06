@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const jsonParser = bodyParser.json();
 const fileName = 'hobby.json';
 const login = require('./login.js')
@@ -129,12 +129,21 @@ app.get('/create_ac', (request, response) => {
         }
 });
 
-//app.get('/edit_ac', (request, response) => {
- //   if (loggedin(request, response))
-//    response.render('edit_ac',{"user":check_loggedin(request)});
-//});
 
-app.get('/edit?hobby_id', (request, response) => {
+app.get('/edit_ac', (request, response) => {
+    if (loggedin(request, response)){
+        if (request.session.flash){
+            var message = request.session.flash["message"]
+            request.session.flash["message"] = []
+            response.render('edit_ac',{"user":check_loggedin(request),"flash":message,"info":login.user_dets(request.session.username)});
+        }
+        else {
+            response.render('edit_ac',{"user":check_loggedin(request),"info":login.user_dets(request.session.username)});
+            }
+    }
+});
+
+app.get('/edit', (request, response) => {
     response.render('edit_hby',{"user":check_loggedin(request)});
 });
 
@@ -183,6 +192,106 @@ app.post('/addhobyy', jsonParser, (request, response) => {
     response.end();
 });
 
+app.post('/edithobby', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.name = request.body.name;
+            hby.note = request.body.note;
+            hby.color = request.body.color;
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+app.get('/delete', jsonParser, (request, response) => {
+    var q = url.parse(request.originalUrl, true);
+    var qdata = q.query;
+    data = fetch(request.session.username)
+    data["intrest"].forEach(function(hby,index,Object){
+        if (hby.id == qdata.id){
+            Object.splice(index,1);
+        }
+    })
+    data["intrest"].forEach( function(hoby,index,Object){
+        hoby.id = index+1;
+    });
+    overall_data = fetch_all()
+    overall_data[request.session.username] = data;
+    fs.writeFileSync(fileName, JSON.stringify(overall_data, null, 2));
+    response.redirect('/');
+    response.end();
+});
+
+function check_date(date,hbyid,username){
+    data = fetch_all()
+    var found = false;
+    data[username]["intrest"].forEach(hby => {
+        if (hby.id == hbyid){
+            hby.info.forEach( date_array => {
+                if (date_array.date == date){
+                    found = true;
+                }
+            });
+        }
+    });
+    return found;
+}
+
+app.post('/add_date', jsonParser, (request, response) => {
+    if (check_date(request.body.date,request.body.id,request.session.username)){
+        response.status(400).send({
+            message: 'That Date already exists'
+         });
+    }
+    else{
+        data = fetch_all()
+        data[request.session.username]["intrest"].forEach(hby => {
+            if (hby.id == request.body.id){
+                hby.info.push({
+                    "date": request.body.date,
+                    "actual": parseInt(request.body.actual),
+                    "expected": parseInt(request.body.expected)
+                });
+            }
+        })
+        fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+        response.redirect('/');
+    }
+});
+
+app.post('/edit_date_actual', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.actual = parseInt(request.body.final);
+                }
+            }); 
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.send("Done!");
+});
+
+app.post('/edit_date_expected', jsonParser, (request, response) => {
+    data = fetch_all()
+    data[request.session.username]["intrest"].forEach(hby => {
+        if (hby.id == request.body.id){
+            hby.info.forEach( date_array => {
+                if (date_array.date == request.body.date){
+                    date_array.expected = parseInt(request.body.expected);
+                }
+            }); 
+        }
+    })
+    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
+    response.send("Done!");
+});
+
 app.get('/get_array', (request, response) => {
     var q = url.parse(request.originalUrl, true);
     var qdata = q.query;
@@ -191,7 +300,7 @@ app.get('/get_array', (request, response) => {
     data["intrest"].forEach(hby => {
         if (hby.id == qdata.id){
             hby.info.forEach( dt => {
-                output.push([dt.date,dt.expected,dt.actual])
+                output.push([dt.date,dt.actual,dt.expected])
             })
         }
     })
@@ -218,7 +327,7 @@ app.get('/get_cal', (request, response) => {
                 else if ((year in output) && !(month in output[year])){
                     output[year][month] = {};
                 }              
-                output[year][month][day] = ["Expected: "+dt.expected+" minutes","Actual minutes"+dt.actual+" minutes"]
+                output[year][month][day] = ["Expected: "+dt.expected+" minutes","Actual: "+dt.actual+" minutes"]
             })
         }
     })
@@ -226,70 +335,54 @@ app.get('/get_cal', (request, response) => {
     response.end();
 });
 
-app.get('/edit_ac', (request, response) => {
-    // if (loggedin(request, response))
-     //response.render('edit_ac',{"user":check_loggedin(request)});
-     var password = request.body.password;
-     var found = false;
-   //  if (password){
-         var users = login.fetch()
-         users.forEach(element => {
-             if (request.session.username == element.username && login.checkhash(password,element.password)) {
-                 if (request.session.fname == "" || request.session.lname == ""){
-                     element.password = request.body.npassword;
-                     found = true;        
-                 }
-           
-                 else if(request.session.lname == ""){
-                     element.fname = request.body.fname;
-                     element.password = request.body.npassword;
-                     found = true;
-                 }
-                 else if(request.session.fname == ""){
-                     element.lname = request.body.lname;
-                     element.password = request.body.npassword;
-                     found = true;
-                 }
-                 else{
-                     element.fname = request.body.fname;
-                     element.lname = request.body.lname;
-                     element.password = request.body.npassword;
-                     found = true;
-                 }
-             
-             if (found){
-                 request.flash('message', 'Success');
-                 response.redirect('/');
-                 response.end();                	
-             }
-            else{
-               request.flash('message', 'Incorrect Password!, please try again');
-                 response.redirect('/edit_ac');
-                 response.end();
-             }
-         } 
-       //  }
-         else {
-             request.flash('message', 'Incorrect Password!, please try again');
-             response.redirect('/edit_ac'); 
-             response.end();
-         }
- 
- });
- });
+app.post('/edit_ac_password', (request, response) => {
 
-// This is a RESTful GET web service
-app.get('/students', (request, response) => {
-    data.sort((a, b) => (a.name > b.name) ? 1 : -1 );
-    response.send(data);
+    var password = request.body.password;
+    var found = false;
+    var users = login.fetch()
+    users.forEach(element => {
+        if (request.session.username == element.username && login.checkhash(password,element.password)) {
+                element.password = login.hashpassword(request.body.npassword);
+                found = true;
+            }            
+        });
+    fs.writeFileSync('user.json', JSON.stringify(users, null, 2));
+    if (found){
+        request.flash('message', 'Settings changed');
+        response.redirect('/edit_ac');
+        response.end();                	
+    }
+    else{
+        request.flash('message', 'Incorrect Password!, please try again');
+        response.redirect('/edit_ac');
+        response.end();
+    }
 });
 
-// This is a RESTful POST web service
-app.post('/students', jsonParser, (request, response) => {
-    data.push(request.body);
-    fs.writeFileSync(fileName, JSON.stringify(data, null, 2));
-    response.end();
+app.post('/edit_ac_dets', (request, response) => {
+    var found = false;
+    var users = login.fetch()
+    users.forEach(element => {
+        if (request.session.username == element.username) {
+                element.fname = request.body.fname;
+                element.lname = request.body.lname;
+                found = true;
+            }            
+        });
+    fs.writeFileSync('user.json', JSON.stringify(users, null, 2));
+    if (found){
+        request.flash('message', 'Settings changed');
+        response.redirect('/edit_ac');
+        response.end();                	
+    }
+    else{
+        request.flash('message', 'Incorrect Password!, please try again');
+        response.redirect('/edit_ac');
+        response.end();
+    }
+
 });
+
 
 app.listen(port);
 console.log('server listening on port 3000');
