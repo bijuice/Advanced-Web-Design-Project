@@ -1,0 +1,104 @@
+<script>
+  $("div.hero-body.is-main").addClass("has-gradient")
+</script>
+    <div class="container has-text-centered">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box">
+            {{#if flash}}
+            <div class="notification is-danger">
+            {{flash}}
+            </div>
+            {{/if}}
+            <h1 class="title is-3">Edit Account</h1>
+            <h3 class="subtitle is-4">You can edit your names here</h3>
+            <form action="/edit_ac_dets" method="POST">
+                <div class="field">
+                <label class="label">First Name</label>
+                <p class="control has-icons-left">
+                    <input class="input" type="text" name="fname" placeholder="First name" value="{{info.fname}}" required>
+                    <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+                </div>
+            <div class="field">
+                <label class="label">Last Name</label>
+                <p class="control has-icons-left">
+                <input class="input" type="text" name="lname" placeholder="Last Name" value="{{info.lname}}" required>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+                </p>
+            </div>
+            <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-success" type="submit">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-warning" type="reset">Reset</button>
+                    </div>  
+            </div>
+            </form>
+            <hr>
+            <h3 class="subtitle is-4">You can change your password here</h3>
+            <form onSubmit = "return checkPassword(this)" action="/edit_ac_password" method="POST">
+                <div class="field">
+                    <label class="label">Old Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" name="password" placeholder="Password" id="password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">New Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" name="npassword" placeholder="New Password" id="npassword" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Confirm Password</label>
+                    <p class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Confirm Password" id="confirm_password" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-success" type="submit">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-warning" type="reset">Reset</button>
+                    </div>  
+                </div>
+
+                </div>
+
+            </form>  
+            <script>
+            function checkPassword(form) { 
+                password1 = form.npassword.value; 
+                password2 = form.confirm_password.value; 
+                if (form.password.value == password1){
+                    alert ("\n New password can not be the same as the old password: Please try again...") 
+                    return false;
+                }           
+                else if (password1 != password2) { 
+                    alert ("\nPassword did not match: Please try again...") 
+                    return false; 
+                } 
+                  else{  
+                    return true; 
+                } 
+            } 
+            </script>
+    </div>
+</div>
